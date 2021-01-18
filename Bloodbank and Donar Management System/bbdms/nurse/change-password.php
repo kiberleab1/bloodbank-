@@ -9,34 +9,27 @@ header('location:index.php');
 else{
 // Code for change password	
 if(isset($_POST['submit']))
+	{
+$password=md5($_POST['password']);
+$newpassword=md5($_POST['newpassword']);
+$username=$_SESSION['alogin'];
+$sql ="SELECT Password FROM admin WHERE UserName=:username and Password=:password";
+$query= $dbh -> prepare($sql);
+$query-> bindParam(':username', $username, PDO::PARAM_STR);
+$query-> bindParam(':password', $password, PDO::PARAM_STR);
+$query-> execute();
+$results = $query -> fetchAll(PDO::FETCH_OBJ);
+if($query -> rowCount() > 0)
 {
-try{
-$username=$_POST['username'];
-$email=$_POST['email'];	
-$type=$_POST['usertype'];
-$passwrd=md5($_POST['passwrd']);
-
-$sql="INSERT INTO  admin(UserName,email,Password,userType) VALUES(:UserName,:email,:Password,:userType)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':UserName',$username,PDO::PARAM_STR);
-
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->bindParam(':Password',$passwrd,PDO::PARAM_STR);
-$query->bindParam(':userType',$type,PDO::PARAM_STR);
-
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-$msg="Your info submitted successfully";
+$con="update admin set Password=:newpassword where UserName=:username";
+$chngpwd1 = $dbh->prepare($con);
+$chngpwd1-> bindParam(':username', $username, PDO::PARAM_STR);
+$chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
+$chngpwd1->execute();
+$msg="Your Password succesfully changed";
 }
-else 
-{
-$error="Something went wrong. Please try again";
-}
-}catch(Exception $e)
-{
-	$msg=$e->getMessage();
+else {
+$error="Your current password is not valid.";	
 }
 }
 ?>
@@ -52,7 +45,7 @@ $error="Something went wrong. Please try again";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>BBDMS | Admin Update Contact info</title>
+	<title>BBDMS | Admin Change Password</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -70,6 +63,18 @@ $error="Something went wrong. Please try again";
 	<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 	<!-- Admin Stye -->
 	<link rel="stylesheet" href="css/style.css">
+<script type="text/javascript">
+function valid()
+{
+if(document.chngpwd.newpassword.value!= document.chngpwd.confirmpassword.value)
+{
+alert("New Password and Confirm Password Field do not match  !!");
+document.chngpwd.confirmpassword.focus();
+return false;
+}
+return true;
+}
+</script>
   <style>
 		.errorWrap {
     padding: 10px;
@@ -102,7 +107,7 @@ $error="Something went wrong. Please try again";
 				<div class="row">
 					<div class="col-md-12">
 					
-						<h2 class="page-title">Register</h2>
+						<h2 class="page-title">Change Password</h2>
 
 						<div class="row">
 							<div class="col-md-10">
@@ -114,48 +119,36 @@ $error="Something went wrong. Please try again";
 											
   	        	  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
-		
-
-				<div class="form-group">
-												<label class="col-sm-4 control-label"> Username</label>
-												<div class="col-sm-8">
-													<input type="text" class="form-control" name="username" id="username" value="<?php echo htmlentities($result->UserName);?>" required/>
-												</div>
-											</div>
 											<div class="form-group">
-												<label class="col-sm-4 control-label"> Email id</label>
+												<label class="col-sm-4 control-label">Current Password</label>
 												<div class="col-sm-8">
-													<input type="email" class="form-control" name="email" id="email" value="<?php echo htmlentities($result->EmailId);?>" required>
+													<input type="password" class="form-control" name="password" id="password" required>
 												</div>
 											</div>
-											<div class="form-group">
-												<label class="col-sm-4 control-label"> password </label>
-												<div class="col-sm-8">
-													<input type="password" class="form-control" value="<?php echo htmlentities($result->password);?>" name="passwrd" id="passswrd" required>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-4 control-label"> UserType </label>
-												<div class="col-sm-8">
-													<select name="usertype" id="usertype" class="form-control"	>
-  														<option value="admin">Admin</option>
-													    <option value="nurse">Nurse</option>
-    													<option value="lab">Lab Tech</option>
-    
-  													</select>
-												</div>
-											</div>
-											
-
 											<div class="hr-dashed"></div>
 											
+											<div class="form-group">
+												<label class="col-sm-4 control-label">New Password</label>
+												<div class="col-sm-8">
+													<input type="password" class="form-control" name="newpassword" id="newpassword" required>
+												</div>
+											</div>
+											<div class="hr-dashed"></div>
+
+											<div class="form-group">
+												<label class="col-sm-4 control-label">Confirm Password</label>
+												<div class="col-sm-8">
+													<input type="password" class="form-control" name="confirmpassword" id="confirmpassword" required>
+												</div>
+											</div>
+											<div class="hr-dashed"></div>
 										
 								
 											
 											<div class="form-group">
 												<div class="col-sm-8 col-sm-offset-4">
 								
-													<button class="btn btn-primary" name="submit" type="submit">Register</button>
+													<button class="btn btn-primary" name="submit" type="submit">Save changes</button>
 												</div>
 											</div>
 

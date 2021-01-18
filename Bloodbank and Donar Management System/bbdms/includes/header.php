@@ -3,7 +3,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="container">
-            <a class="navbar-brand" href="index.php">BloodBank & Donor Management System</a>
+            <a class="navbar-brand" href="index.php">BloodBank Management System</a>
             <div class="collapse navbar-collapse" id="navbarExample">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
@@ -22,7 +22,10 @@
                       <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact us</a>
                     </li>
-					 </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="make-appointment.php">Make Appointment</a>
+                    </li>
+					</li>
                       <li class="nav-item">
                         <a class="nav-link" href="./amharic">Amharic</a>
                     </li>

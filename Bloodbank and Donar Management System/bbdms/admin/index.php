@@ -5,16 +5,25 @@ if(isset($_POST['login']))
 {
 $email=$_POST['username'];
 $password=md5($_POST['password']);
-$sql ="SELECT UserName,Password FROM admin WHERE UserName=:email and Password=:password";
+$sql ="SELECT UserName,Password,userType FROM admin WHERE UserName=:email and Password=:password";
 $query= $dbh -> prepare($sql);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
 $query-> bindParam(':password', $password, PDO::PARAM_STR);
 $query-> execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
+$results=$query->fetchAll(PDO::FETCH_ASSOC);
+
 if($query->rowCount() > 0)
 {
+$usertype= $results[0]['userType'];
 $_SESSION['alogin']=$_POST['username'];
-echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
+if($usertype=='admin'){
+	echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
+}else if($usertype=='nurse'){
+	echo "<script type='text/javascript'> document.location = '../nurse/index.php'; </script>";
+}else if($usertype=='lab'){
+	echo "<script type='text/javascript'> document.location = '../lab/index.php'; </script>";
+}
+
 } else{
   
   echo "<script>alert('Invalid Details');</script>";

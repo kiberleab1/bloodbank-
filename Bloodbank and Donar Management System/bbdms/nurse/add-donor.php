@@ -10,34 +10,36 @@ else{
 
 if(isset($_POST['submit']))
   {
-	  try{
 $fullname=$_POST['fullname'];
 $mobile=$_POST['mobileno'];
 $email=$_POST['emailid'];
 $age=$_POST['age'];
-$sex=$_POST['gender'];
+$gender=$_POST['gender'];
+$blodgroup=$_POST['bloodgroup'];
 $address=$_POST['address'];
-$status=$_POST["health"];
-
-$date=$_POST["date"];
-$sql="INSERT INTO  tblappointment(fullname,mobile,date,sex,age,address,email,health_status) VALUES(:fullname,:mobile,:date,:sex,:age,:address,:email,:health_status)";
+$message=$_POST['message'];
+$status=1;
+$sql="INSERT INTO  tblblooddonars(FullName,MobileNumber,EmailId,Age,Gender,BloodGroup,Address,Message,status) VALUES(:fullname,:mobile,:email,:age,:gender,:blodgroup,:address,:message,:status)";
 $query = $dbh->prepare($sql);
 $query->bindParam(':fullname',$fullname,PDO::PARAM_STR);
 $query->bindParam(':mobile',$mobile,PDO::PARAM_STR);
 $query->bindParam(':email',$email,PDO::PARAM_STR);
 $query->bindParam(':age',$age,PDO::PARAM_STR);
-$query->bindParam(':sex',$sex,PDO::PARAM_STR);
+$query->bindParam(':gender',$gender,PDO::PARAM_STR);
+$query->bindParam(':blodgroup',$blodgroup,PDO::PARAM_STR);
 $query->bindParam(':address',$address,PDO::PARAM_STR);
-$query->bindParam(':health_status',$status,PDO::PARAM_STR);
-
-$query->bindParam(':date',$date,PDO::PARAM_STR);
+$query->bindParam(':message',$message,PDO::PARAM_STR);
+$query->bindParam(':status',$status,PDO::PARAM_STR);
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
-	  }catch(Exception $e)
-	  {
-		  $msg=$e->getMessage();
-	  }
-
+if($lastInsertId)
+{
+$msg="Your info submitted successfully";
+}
+else 
+{
+$error="Something went wrong. Please try again";
+}
 
 }
 
@@ -156,16 +158,25 @@ function isNumberKey(evt)
 <option value="Female">Female</option>
 </select>
 </div>
-
-<div class="form-group">
-<label class="col-sm-2 control-label">Health Status <span style="color:red">*</span></label>
+<label class="col-sm-2 control-label">Blood Group<span style="color:red">*</span></label>
 <div class="col-sm-4">
-<select name="health" id="health" class="form-control"	>
-  														<option value="normal">Normal</option>
-													    <option value="abnormal">Abnormal</option>
-    
-  													</select>
-										
+
+
+<select name="bloodgroup" class="form-control" required>
+<option value="">Select</option>
+<?php $sql = "SELECT * from  tblbloodgroup ";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{				?>	
+<option value="<?php echo htmlentities($result->BloodGroup);?>"><?php echo htmlentities($result->BloodGroup);?></option>
+<?php }} ?>
+</select>
+
 </div>
 </div>
 
@@ -177,20 +188,14 @@ function isNumberKey(evt)
 <div class="col-sm-10">
 <textarea class="form-control" name="address" ></textarea>
 </div>
-
 </div>
 
 <div class="hr-dashed"></div>
 <div class="form-group">
-<label class="col-sm-2 control-label">Date</label>
+<label class="col-sm-2 control-label">Message<span style="color:red">*</span></label>
 <div class="col-sm-10">
-<input type="date" class="form-control" id="date" name="date" required data-validation-required-message="Please enter your email address.">
-                   
+<textarea class="form-control" name="message" required> </textarea>
 </div>
-
-</div>
-
-<div class="hr-dashed"></div>
 </div>
 
 
