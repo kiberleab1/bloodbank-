@@ -78,7 +78,7 @@ include('includes/config.php');
         <div class="row">
                    <?php 
 $status=normal;
-$sql = "SELECT * from tblappointment where health_status=:status and blood_group IS NOT NULL order by rand() limit 6";
+$sql = "SELECT * from tblappointment where health_status=:status and blood_group IS NOT NULL and status=1 order by rand() limit 6";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':status',$status,PDO::PARAM_STR);
 $query->execute();

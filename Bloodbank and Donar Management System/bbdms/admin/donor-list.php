@@ -11,7 +11,7 @@ if(isset($_REQUEST['hidden']))
 	{
 $eid=intval($_GET['hidden']);
 $status="0";
-$sql = "UPDATE tblblooddonars SET Status=:status WHERE  id=:eid";
+$sql = "UPDATE tblappointment SET Status=:status WHERE  id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
@@ -26,7 +26,7 @@ if(isset($_REQUEST['public']))
 $aeid=intval($_GET['public']);
 $status=1;
 
-$sql = "UPDATE tblblooddonars SET Status=:status WHERE  id=:aeid";
+$sql = "UPDATE tblappointment SET Status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
@@ -37,7 +37,7 @@ $msg="Booking Successfully Confirmed";
 if(isset($_REQUEST['del']))
 	{
 $did=intval($_GET['del']);
-$sql = "delete from tblblooddonars WHERE  id=:did";
+$sql = "delete from tblappointment WHERE  ID=:did";
 $query = $dbh->prepare($sql);
 $query-> bindParam(':did',$did, PDO::PARAM_STR);
 $query -> execute();
@@ -148,7 +148,7 @@ $msg="Record deleted Successfully ";
 									</tfoot>
 									<tbody>
 
-<?php $sql = "SELECT * from  tblblooddonars ";
+<?php $sql = "SELECT * from  tblappointment ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -159,26 +159,26 @@ foreach($results as $result)
 {				?>	
 										<tr>
 											<td><?php echo htmlentities($cnt);?></td>
-											<td><?php echo htmlentities($result->FullName);?></td>
-											<td><?php echo htmlentities($result->MobileNumber);?></td>
-											<td><?php echo htmlentities($result->EmailId);?></td>
-											<td><?php echo htmlentities($result->Gender);?></td>
-											<td><?php echo htmlentities($result->Age);?></td>
-											<td><?php echo htmlentities($result->BloodGroup);?></td>
+											<td><?php echo htmlentities($result->fullname);?></td>
+											<td><?php echo htmlentities($result->mobile);?></td>
+											<td><?php echo htmlentities($result->email);?></td>
+											<td><?php echo htmlentities($result->age);?></td>
+											<td><?php echo htmlentities($result->sex);?></td>
+											<td><?php echo htmlentities($result->blood_group);?></td>
 											<td><?php echo htmlentities($result->Address);?></td>
-											<td><?php echo htmlentities($result->Message);?></td>
+										
 										
 										
 										<td>
 <?php if($result->status==1)
 {?>
-<a href="donor-list.php?hidden=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to hiidden this detail')"> Make Hidden</a> 
+<a href="donor-list.php?hidden=<?php echo htmlentities($result->ID);?>" onclick="return confirm('Do you really want to hiidden this detail')"> Make Hidden</a> 
 <?php } else {?>
 
-<a href="donor-list.php?public=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Public this detail')"> Make Public</a>
+<a href="donor-list.php?public=<?php echo htmlentities($result->ID);?>" onclick="return confirm('Do you really want to Public this detail')"> Make Public</a>
 
 <?php } ?>
-<a href="donor-list.php?del=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to delete this record')"> Delete</a>
+<a href="donor-list.php?del=<?php echo htmlentities($result->ID);?>" onclick="return confirm('Do you really want to delete this record')"> Delete</a>
 </td>
 
 										</tr>
