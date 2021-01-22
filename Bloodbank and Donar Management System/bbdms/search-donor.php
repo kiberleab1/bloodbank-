@@ -116,7 +116,7 @@ if(isset($_POST['submit']))
 $status=1;
 $bloodgroup=$_POST['bloodgroup'];
 $location=$_POST['location'];
-$sql = "SELECT * from tblblooddonars where (status=:status and BloodGroup=:bloodgroup) ||  (Address=:location)";
+$sql = "SELECT * from tblappointment where (status=:status and blood_group=:bloodgroup) ||  (Address=:location)";
 $query = $dbh -> prepare($sql);
 $query->bindParam(':status',$status,PDO::PARAM_STR);
 $query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
@@ -134,18 +134,18 @@ foreach($results as $result)
                     <a href="#"><img class="card-img-top img-fluid" src="images/blood-donor.jpg" alt="" ></a>
                     <div class="card-block">
                         <h4 class="card-title"><a href="#"><?php echo htmlentities($result->FullName);?></a></h4>
-                        <p class="card-text"><b>Mobile No. / Email Id :</b> <?php echo htmlentities($result->MobileNumber);?> /
-                        <?php if($result->EmailId=="")
+                        <p class="card-text"><b>Mobile No. / Email Id :</b> <?php echo htmlentities($result->mobile);?> /
+                        <?php if($result->email=="")
                         {
                         echo htmlentities(NA);
                         } else {
-echo htmlentities($result->EmailId);
+echo htmlentities($result->email);
 }
 ?>
                              </p>
-<p class="card-text"><b>  Gender :</b> <?php echo htmlentities($result->Gender);?></p>
-<p class="card-text"><b> Age:</b> <?php echo htmlentities($result->Age);?></p>
-<p class="card-text"><b>Blood Group :</b> <?php echo htmlentities($result->BloodGroup);?></p>
+<p class="card-text"><b>  Gender :</b> <?php echo htmlentities($result->sex);?></p>
+<p class="card-text"><b> Age:</b> <?php echo htmlentities($result->age);?></p>
+<p class="card-text"><b>Blood Group :</b> <?php echo htmlentities($result->blood_group);?></p>
 <p class="card-text"><b>Address :</b>                  
 <?php if($result->Address=="")
 {
@@ -154,8 +154,7 @@ echo htmlentities('NA');
 echo htmlentities($result->Address);
 }
 ?></p>
-     <p class="card-text"><b>Message :</b> <?php echo htmlentities($result->Message);?></p>
-
+     
                     </div>
                 </div>
             </div>

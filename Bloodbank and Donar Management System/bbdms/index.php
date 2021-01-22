@@ -143,7 +143,7 @@ The most common blood type is O, followed by type A.
 Type O individuals are often called "universal donors" since their blood can be transfused into persons with any blood type. Those with type AB blood are called "universal recipients" because they can receive blood of any type.</p>
             </div>
             <div class="col-md-4">
-                <a class="btn btn-lg btn-secondary btn-block" href="become-donar.php">Become a Donar</a>
+                <a class="btn btn-lg btn-secondary btn-block" href="make-appointment.php">Become a Donar</a>
             </div>
         </div>
 

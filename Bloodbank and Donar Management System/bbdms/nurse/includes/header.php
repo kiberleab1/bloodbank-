@@ -1,10 +1,6 @@
 <?php
 	$username=$_SESSION['alogin'];
-	$sql = "SELECT * from  admin WHERE UserName=?";
-	$query = $dbh -> prepare($sql);
-	$query->execute([$username]);
-	$results=$query->fetchAll(PDO::FETCH_ASSOC);
-	$name=$results[0]["email"];
+	
 	
 ?>
 <div class="brand clearfix">

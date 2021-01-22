@@ -25,7 +25,6 @@ if($usertype=='admin'){
 }
 
 } else{
-  
   echo "<script>alert('Invalid Details');</script>";
 
 }
