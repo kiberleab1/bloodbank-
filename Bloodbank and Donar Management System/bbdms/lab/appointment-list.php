@@ -144,6 +144,7 @@ $msg="data updated  successfully";
 											<th>Address</th>
 											<th>Date</th>
 											<th>Health Status</th>
+											<th>Current BG</th>
 											<th>Blood Group</th>
 											<th>action </th>
 										</tr>
@@ -162,6 +163,7 @@ $msg="data updated  successfully";
 											<th>Date</th>
 											
 											<th>Health Status</th>
+											<th>current BG</th>
 											<th>Blood Group</th>
 											<th>action </th>
 										</tr>
@@ -187,6 +189,8 @@ foreach($results as $result)
 											<td><?php echo htmlentities($result->Address);?></td>
 											<td><?php echo htmlentities($result->date);?></td>
 											<td><?php echo htmlentities($result->health_status);?></td>
+											<td><?php echo htmlentities($result->blood_group);?></td>
+								
 											<td>
 											<form name="sentMessage"  method="post">
 											<input type="hidden" value="<?php echo $result->ID?>" name="ID" id="ID" visiblity="none"/>

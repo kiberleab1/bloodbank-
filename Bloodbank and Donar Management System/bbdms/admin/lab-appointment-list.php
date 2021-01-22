@@ -187,6 +187,7 @@ foreach($results as $result)
 											<td><?php echo htmlentities($result->Address);?></td>
 											<td><?php echo htmlentities($result->date);?></td>
 											<td><?php echo htmlentities($result->health_status);?></td>
+								
 											<td>
 											<form name="sentMessage"  method="post">
 											<input type="hidden" value="<?php echo $result->ID?>" name="ID" id="ID" visiblity="none"/>
